@@ -19,6 +19,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -49,6 +50,8 @@ public final class TinyRadar {
     public static final EventBus BUS = new EventBus();
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private ScheduledFuture<?> task;
+    private final Service SERVICE = new Service();
 
     private static TinyRadar instance;
 
@@ -69,13 +72,16 @@ public final class TinyRadar {
         loadBases();
     }
 
-    public void launch() {
-        var service = new Service();
-        scheduler.scheduleAtFixedRate(service::request, 1, 2, TimeUnit.SECONDS);
+    public void start() {
+        task = scheduler.scheduleAtFixedRate(SERVICE::request, 0, 2, TimeUnit.SECONDS);
     }
 
     public void restart() {
+        if (task != null) {
+            task.cancel(true);
+        }
 
+        start();
     }
 
     public void loadAirports() {
@@ -110,7 +116,7 @@ public final class TinyRadar {
 
     private void createFolder(Path path) {
         if (Files.notExists(path)) {
-            log.info("Creating " + path);
+            log.info("Creating {}", path);
 
             try {
                 Files.createDirectory(path);

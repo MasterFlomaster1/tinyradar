@@ -35,6 +35,7 @@ final class ToolbarPanel extends JPanel {
 
             TinyRadar.zoom--;
             TinyRadar.BUS.post(new ZoomChangeEvent());
+            TinyRadar.of().restart();
         });
 
         var zoomInButton = new JButton("");
@@ -46,6 +47,7 @@ final class ToolbarPanel extends JPanel {
 
             TinyRadar.zoom++;
             TinyRadar.BUS.post(new ZoomChangeEvent());
+            TinyRadar.of().restart();
         });
 
         var settingsButton = new JButton("");
@@ -74,7 +76,10 @@ final class ToolbarPanel extends JPanel {
         var milButton = new JButton("");
         milButton.setToolTipText("Show only military aircraft");
         milButton.setIcon(new FlatSVGIcon(Resources.get("/icons/radio.svg")));
-        milButton.addActionListener(e -> Filter.showMilOnly = !Filter.showMilOnly);
+        milButton.addActionListener(e -> {
+            Filter.showMilOnly = !Filter.showMilOnly;
+            TinyRadar.of().restart();
+        });
 
         var githubButton = new JButton("");
         githubButton.setToolTipText("Open project on GitHub");

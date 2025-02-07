@@ -49,7 +49,7 @@ public final class Gui implements ShutdownListener {
         TinyRadar.zoom = zoom;
         TinyRadar.range = range;
         TinyRadar.of().setup();
-        TinyRadar.of().launch();
+        TinyRadar.of().start();
 
         SwingUtilities.invokeLater(() -> {
             rootFrame = new SimpleFrame();
