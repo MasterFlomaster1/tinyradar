@@ -7,6 +7,7 @@ import dev.mf1.tinyradar.core.al.Aircraft;
 import dev.mf1.tinyradar.core.event.AircraftSelectionEvent;
 import dev.mf1.tinyradar.core.event.FlightsUpdateEvent;
 import dev.mf1.tinyradar.gui.map.MapUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.SwingUtilities;
 import java.awt.Color;
@@ -16,6 +17,7 @@ import java.awt.Graphics2D;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Slf4j
 final class LayerAirborne extends TransparentPanel {
 
     private final List<Aircraft> flights = new CopyOnWriteArrayList<>();
@@ -23,22 +25,6 @@ final class LayerAirborne extends TransparentPanel {
 
     LayerAirborne() {
         TinyRadar.BUS.register(this);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        final Graphics2D g2d = (Graphics2D) g;
-        Gui.applyQualityRenderingHints(g2d);
-
-        if (flights.isEmpty()) {
-            return;
-        }
-
-        removeAll();
-
-        flights.forEach(item -> drawContact(g2d, item));
     }
 
     @Subscribe
@@ -54,7 +40,26 @@ final class LayerAirborne extends TransparentPanel {
         flights.clear();
         flights.addAll(event.flights());
 
+//        System.out.println("repaint all");
+
         SwingUtilities.invokeLater(this::repaint);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+//        log.debug("LayerAirborne");
+        super.paintComponent(g);
+
+        final Graphics2D g2d = (Graphics2D) g;
+        Gui.applyQualityRenderingHints(g2d);
+
+        if (flights.isEmpty()) {
+            return;
+        }
+
+        removeAll();
+
+        flights.forEach(item -> drawContact(g2d, item));
     }
 
     private void drawContact(Graphics2D g2d, Aircraft contact) {

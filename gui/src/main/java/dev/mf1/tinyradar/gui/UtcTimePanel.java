@@ -4,7 +4,6 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -24,18 +23,14 @@ final class UtcTimePanel extends TransparentPanel {
         utcTimeLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
         add(utcTimeLabel);
 
-        Timer timer = new Timer(1000, e -> {
+        new Timer(1000, e -> {
             utcTime = Instant.now();
+
+            String value = formatter.format(utcTime) + " UTC";
+            utcTimeLabel.setText(value);
+
             repaint();
-        });
-        timer.start();
+        }).start();
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        String value = formatter.format(utcTime) + " UTC";
-        utcTimeLabel.setText(value);
-    }
 }

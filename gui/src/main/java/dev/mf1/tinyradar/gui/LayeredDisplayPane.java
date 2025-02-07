@@ -12,10 +12,9 @@ import java.awt.event.ComponentEvent;
 
 public final class LayeredDisplayPane extends JLayeredPane {
 
-    private final Dimension dimension = new Dimension(1280, 720);
-
     public LayeredDisplayPane() {
         var rootLayer = new JPanel();
+        var dimension = new Dimension(1280, 720);
         rootLayer.setSize(dimension);
         rootLayer.setBackground(Color.BLACK);
 
@@ -46,8 +45,6 @@ public final class LayeredDisplayPane extends JLayeredPane {
                 layerAirborne.setSize(width, height);
                 layerSurface.setSize(width, height);
                 layerConfig.setSize(width, height);
-
-                dimension.setSize(c.getWidth(), c.getHeight());
             }
         });
     }

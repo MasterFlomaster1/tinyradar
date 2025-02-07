@@ -71,21 +71,20 @@ public class MapPanel extends TransparentPanel {
         int centerY = panelHeight / 2;
         var p = MapUtils.getPointInTile(TinyRadar.pos, TinyRadar.zoom);
 
-        tileList.forEach(t -> {
-            Point tileCoords = new Point(t.getX(), t.getY());
-            BufferedImage tileImage = t.getImage();
+        tileList.stream()
+                .parallel()
+                .forEach(t -> {
+                    Point tileCoords = new Point(t.getX(), t.getY());
+                    BufferedImage tileImage = t.getImage();
 
-            int dx = (tileCoords.x - centerTileX) * TILE_SIZE - p[0];
-            int dy = (tileCoords.y - centerTileY) * TILE_SIZE - p[1];
+                    int dx = (tileCoords.x - centerTileX) * TILE_SIZE - p[0];
+                    int dy = (tileCoords.y - centerTileY) * TILE_SIZE - p[1];
 
-            int drawX = centerX + dx;
-            int drawY = centerY + dy;
+                    int drawX = centerX + dx;
+                    int drawY = centerY + dy;
 
-            g2d.drawImage(tileImage, drawX, drawY, TILE_SIZE, TILE_SIZE, null);
-
-//            g2d.setColor(Color.decode("#1A1A1A"));
-//            g2d.drawRect(drawX, drawY, TILE_SIZE, TILE_SIZE);
-        });
+                    g2d.drawImage(tileImage, drawX, drawY, TILE_SIZE, TILE_SIZE, null);
+                });
     }
 
     @Subscribe
