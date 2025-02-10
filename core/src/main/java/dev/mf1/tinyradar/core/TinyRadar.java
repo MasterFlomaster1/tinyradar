@@ -2,6 +2,7 @@ package dev.mf1.tinyradar.core;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.eventbus.EventBus;
+import dev.mf1.tinyradar.core.event.AirportsUpdateEvent;
 import dev.mf1.tinyradar.core.oa.Airport;
 import dev.mf1.tinyradar.core.oa.AirportLookup;
 import dev.mf1.tinyradar.core.util.AfbDeserializer;
@@ -16,7 +17,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -29,11 +29,8 @@ public final class TinyRadar {
     public static int range;
     public static int zoom = 11;
 
-    @Getter
     private List<Airport> airportList = new ArrayList<>();
-
-    @Getter
-    private final List<Airport> airportInRangeList = new CopyOnWriteArrayList<>();
+    private final List<Airport> airportInRangeList = new ArrayList<>();
 
     @Getter
     private final List<Afb> afbList = new ArrayList<>();
@@ -57,6 +54,8 @@ public final class TinyRadar {
 
     private TinyRadar() {
         initHomeFolder();
+
+        TinyRadar.BUS.register(this);
     }
 
     public static TinyRadar of() {
@@ -98,6 +97,7 @@ public final class TinyRadar {
         CompletableFuture.runAsync(() -> {
             airportInRangeList.clear();
             airportInRangeList.addAll(AirportLookup.filterInRange(airportList));
+            BUS.post(new AirportsUpdateEvent(airportInRangeList));
         });
     }
 

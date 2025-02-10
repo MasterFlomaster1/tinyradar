@@ -1,15 +1,18 @@
 package dev.mf1.tinyradar.gui;
 
 import dev.mf1.tinyradar.gui.map.MapPanel;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+@Slf4j
 public final class LayeredDisplayPane extends JLayeredPane {
 
     public LayeredDisplayPane() {
@@ -22,8 +25,8 @@ public final class LayeredDisplayPane extends JLayeredPane {
         layerMap.setSize(dimension);
 
         LayerConfig layerConfig = new LayerConfig();
-        LayerSurface layerSurface = new LayerSurface();
-        LayerAirborne layerAirborne = new LayerAirborne();
+        LayerSurface layerSurface = new LayerSurface(dimension);
+        LayerAirborne layerAirborne = new LayerAirborne(dimension);
 
         add(rootLayer, Integer.valueOf(1));
         add(layerMap, Integer.valueOf(2));
@@ -45,8 +48,16 @@ public final class LayeredDisplayPane extends JLayeredPane {
                 layerAirborne.setSize(width, height);
                 layerSurface.setSize(width, height);
                 layerConfig.setSize(width, height);
+
+                layerSurface.refresh();
+                layerAirborne.refresh();
             }
         });
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        log.info("repaint");
+        super.paintComponent(g);
+    }
 }
