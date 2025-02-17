@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Aircraft {
+public class Aircraft implements Cloneable {
 
     private String hex;
     private String type;
@@ -110,4 +110,12 @@ public class Aircraft {
                 : (magHeading != null) ? magHeading.intValue() : 0;
     }
 
+    @Override
+    public Aircraft clone() {
+        try {
+            return (Aircraft) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

@@ -29,6 +29,9 @@ public final class TinyRadar {
     public static int range;
     public static int zoom = 11;
 
+    @Getter
+    public FlightMarker flightMarker = FlightMarker.ALL;
+
     private List<Airport> airportList = new ArrayList<>();
     private final List<Airport> airportInRangeList = new ArrayList<>();
 
@@ -129,5 +132,7 @@ public final class TinyRadar {
     @JsonDeserialize(using = AfbDeserializer.class)
     public record Afb(String name, String area, String org, WGS84 location) {
     }
+
+    public enum FlightMarker { CALLSIGN, ALL }
 
 }

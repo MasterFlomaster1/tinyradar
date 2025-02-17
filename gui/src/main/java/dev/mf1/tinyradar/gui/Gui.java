@@ -6,9 +6,13 @@ import dev.mf1.tinyradar.core.TinyRadar;
 import dev.mf1.tinyradar.core.WGS84;
 import dev.mf1.tinyradar.core.event.LocationChangeEvent;
 import lombok.extern.slf4j.Slf4j;
+import net.miginfocom.swing.MigLayout;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -21,7 +25,7 @@ import java.util.prefs.Preferences;
 @Slf4j
 public final class Gui implements ShutdownListener {
 
-    public static SimpleFrame rootFrame;
+    public static JFrame rootFrame;
     private static final List<ShutdownListener> shutdownListeners = new ArrayList<>();
     private final Preferences preferences = Preferences.userNodeForPackage(Gui.class);
 
@@ -52,13 +56,23 @@ public final class Gui implements ShutdownListener {
         TinyRadar.of().start();
 
         SwingUtilities.invokeLater(() -> {
-            rootFrame = new SimpleFrame();
+            rootFrame = frame("TinyRadar 1.0", new Dimension(1280, 720));
+            rootFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            rootFrame.setMinimumSize(new Dimension(640, 480));
             rootFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
                     shutdownListeners.forEach(ShutdownListener::onShutdown);
                 }
             });
+
+            var display = new LayeredDisplayPane();
+            var controls = new ControlsPanel();
+
+            rootFrame.setLayout(new MigLayout("insets 0, gap 0", "[grow, fill][300!, fill]", "[]"));
+            rootFrame.add(display, "cell 0 0, grow, push");
+            rootFrame.add(controls, "cell 1 0, grow, push");
+
             log.info(systemInfo());
 
             TinyRadar.BUS.post(new LocationChangeEvent(TinyRadar.pos));
@@ -67,6 +81,17 @@ public final class Gui implements ShutdownListener {
 
     public static void addShutdownListener(ShutdownListener listener) {
         shutdownListeners.add(listener);
+    }
+
+    public static JFrame frame(String title, Dimension size) {
+        var frame = new JFrame();
+        frame.setSize(size);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setTitle(title);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        log.info("frame() call");
+        return frame;
     }
 
     private static String systemInfo() {

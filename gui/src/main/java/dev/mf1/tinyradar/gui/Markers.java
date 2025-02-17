@@ -1,6 +1,7 @@
 package dev.mf1.tinyradar.gui;
 
 import com.github.weisj.jsvg.SVGDocument;
+import com.github.weisj.jsvg.parser.LoaderContext;
 import com.github.weisj.jsvg.parser.SVGLoader;
 import dev.mf1.tinyradar.core.al.Aircraft;
 
@@ -30,36 +31,37 @@ public final class Markers {
     public static void load() {
 
         var loader = new SVGLoader();
+        var context = LoaderContext.builder().build();
 
-        airliner = loader.load(Resources.getAsStream("/markers/airliner.svg"));
-        cessna = loader.load(Resources.getAsStream("/markers/cessna.svg"));
-        heavy2E = loader.load(Resources.getAsStream("/markers/heavy2e.svg"));
-        SVGDocument md11 = loader.load(Resources.getAsStream("/markers/md11.svg"));
-        SVGDocument c130 = loader.load(Resources.getAsStream("/markers/c130.svg"));
-        hiPerf = loader.load(Resources.getAsStream("/markers/hi_perf.svg"));
-        SVGDocument f18 = loader.load(Resources.getAsStream("/markers/f18.svg"));
-        SVGDocument e3awacs = loader.load(Resources.getAsStream("/markers/e3awacs.svg"));
-        SVGDocument heavy4E = loader.load(Resources.getAsStream("/markers/heavy4e.svg"));
-        jetSwept = loader.load(Resources.getAsStream("/markers/jet_swept.svg"));
-        SVGDocument twinLarge = loader.load(Resources.getAsStream("/markers/twin_large.svg"));
-        SVGDocument v22Fast = loader.load(Resources.getAsStream("/markers/v22_fast.svg"));
-        SVGDocument t38 = loader.load(Resources.getAsStream("/markers/t38.svg"));
-        uav = loader.load(Resources.getAsStream("/markers/uav.svg"));
-        SVGDocument typhoon = loader.load(Resources.getAsStream("/markers/typhoon.svg"));
-        SVGDocument c17 = loader.load(Resources.getAsStream("/markers/c17.svg"));
-        SVGDocument c5 = loader.load(Resources.getAsStream("/markers/c5.svg"));
-        SVGDocument a380 = loader.load(Resources.getAsStream("/markers/a380.svg"));
-        helicopter = loader.load(Resources.getAsStream("/markers/helicopter.svg"));
-        SVGDocument a10 = loader.load(Resources.getAsStream("/markers/a10.svg"));
-        SVGDocument apache = loader.load(Resources.getAsStream("/markers/apache.svg"));
-        SVGDocument blackhawk = loader.load(Resources.getAsStream("/markers/blackhawk.svg"));
-        SVGDocument b52 = loader.load(Resources.getAsStream("/markers/b52.svg"));
-        SVGDocument b707 = loader.load(Resources.getAsStream("/markers/b707.svg"));
-        SVGDocument groundSquare = loader.load(Resources.getAsStream("/markers/ground_square.svg"));
-        groundTower = loader.load(Resources.getAsStream("/markers/ground_tower.svg"));
-        SVGDocument puma = loader.load(Resources.getAsStream("/markers/puma.svg"));
-        SVGDocument f15 = loader.load(Resources.getAsStream("/markers/md_f15.svg"));
-        SVGDocument b1bLancer = loader.load(Resources.getAsStream("/markers/b1b_lancer.svg"));
+        airliner = loader.load(Resources.getAsStream("/markers/airliner.svg"), null, context);
+        cessna = loader.load(Resources.getAsStream("/markers/cessna.svg"), null, context);
+        heavy2E = loader.load(Resources.getAsStream("/markers/heavy2e.svg"), null, context);
+        SVGDocument md11 = loader.load(Resources.getAsStream("/markers/md11.svg"), null, context);
+        SVGDocument c130 = loader.load(Resources.getAsStream("/markers/c130.svg"), null, context);
+        hiPerf = loader.load(Resources.getAsStream("/markers/hi_perf.svg"), null, context);
+        SVGDocument f18 = loader.load(Resources.getAsStream("/markers/f18.svg"), null, context);
+        SVGDocument e3awacs = loader.load(Resources.getAsStream("/markers/e3awacs.svg"), null, context);
+        SVGDocument heavy4E = loader.load(Resources.getAsStream("/markers/heavy4e.svg"), null, context);
+        jetSwept = loader.load(Resources.getAsStream("/markers/jet_swept.svg"), null, context);
+        SVGDocument twinLarge = loader.load(Resources.getAsStream("/markers/twin_large.svg"), null, context);
+        SVGDocument v22Fast = loader.load(Resources.getAsStream("/markers/v22_fast.svg"), null, context);
+        SVGDocument t38 = loader.load(Resources.getAsStream("/markers/t38.svg"), null, context);
+        uav = loader.load(Resources.getAsStream("/markers/uav.svg"), null, context);
+        SVGDocument typhoon = loader.load(Resources.getAsStream("/markers/typhoon.svg"), null, context);
+        SVGDocument c17 = loader.load(Resources.getAsStream("/markers/c17.svg"), null, context);
+        SVGDocument c5 = loader.load(Resources.getAsStream("/markers/c5.svg"), null, context);
+        SVGDocument a380 = loader.load(Resources.getAsStream("/markers/a380.svg"), null, context);
+        helicopter = loader.load(Resources.getAsStream("/markers/helicopter.svg"), null, context);
+        SVGDocument a10 = loader.load(Resources.getAsStream("/markers/a10.svg"), null, context);
+        SVGDocument apache = loader.load(Resources.getAsStream("/markers/apache.svg"), null, context);
+        SVGDocument blackhawk = loader.load(Resources.getAsStream("/markers/blackhawk.svg"), null, context);
+        SVGDocument b52 = loader.load(Resources.getAsStream("/markers/b52.svg"), null, context);
+        SVGDocument b707 = loader.load(Resources.getAsStream("/markers/b707.svg"), null, context);
+        SVGDocument groundSquare = loader.load(Resources.getAsStream("/markers/ground_square.svg"), null, context);
+        groundTower = loader.load(Resources.getAsStream("/markers/ground_tower.svg"), null, context);
+        SVGDocument puma = loader.load(Resources.getAsStream("/markers/puma.svg"), null, context);
+        SVGDocument f15 = loader.load(Resources.getAsStream("/markers/md_f15.svg"), null, context);
+        SVGDocument b1bLancer = loader.load(Resources.getAsStream("/markers/b1b_lancer.svg"), null, context);
 
         category = Map.of(
                 "A1", cessna,

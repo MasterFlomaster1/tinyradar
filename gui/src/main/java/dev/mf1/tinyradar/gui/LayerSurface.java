@@ -64,7 +64,7 @@ public class LayerSurface extends TransparentPanel {
                 add(marker);
             }
 
-            repaint();
+//            repaint();
         });
     }
 

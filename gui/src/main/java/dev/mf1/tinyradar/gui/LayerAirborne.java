@@ -103,6 +103,13 @@ final class LayerAirborne extends TransparentPanel {
                 marker.setBounds(x, y, (int) doc.size().getWidth(), (int) doc.size().getHeight());
                 marker.setDegrees(a.getAnyHeading());
                 add(marker);
+
+//                int pX = x + (int) doc.size().getWidth() + 1;
+//                int pY = y + (int) doc.size().getHeight() + 1;
+//                var pF = new FlightDisplayPanel(a);
+//                pF.setBounds(pX, pY, 64, 40);
+//
+//                add(pF);
             }
 
             repaint();

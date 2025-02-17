@@ -11,16 +11,16 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.concurrent.CountDownLatch;
 
-class AircraftInfoPanelTest {
+class FlightDisplayPanelTest {
 
     @Test
     @Disabled("Manual activation required")
     void demo() throws InterruptedException {
         FlatMacDarkLaf.setup();
-        CountDownLatch latch = new CountDownLatch(1);
 
+        CountDownLatch latch = new CountDownLatch(1);
         SwingUtilities.invokeLater(() -> {
-            var frame = Gui.frame("AircraftInfoPanelTest", new Dimension(300, 600));
+            var frame = Gui.frame("FlightDisplayPanelTest", new Dimension(100, 100));
             frame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent windowEvent) {
@@ -29,12 +29,9 @@ class AircraftInfoPanelTest {
             });
 
             var aircraft = DummyObjects.getList().get(1);
-
-            var infoPanel = new AircraftInfoPanel();
-            infoPanel.display(aircraft);
-            infoPanel.displayPicture();
-
-            frame.add(infoPanel);
+            var panel = new FlightDisplayPanel(aircraft);
+            TestUtils.applyColorBorder(panel);
+            frame.add(panel);
         });
 
         latch.await();
