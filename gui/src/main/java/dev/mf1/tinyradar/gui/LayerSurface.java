@@ -8,6 +8,7 @@ import dev.mf1.tinyradar.core.WGS84;
 import dev.mf1.tinyradar.core.event.AirportsUpdateEvent;
 import dev.mf1.tinyradar.core.oa.Airport;
 import dev.mf1.tinyradar.gui.map.MapUtils;
+import dev.mf1.tinyradar.gui.svg.SvgPanel;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.SwingUtilities;
@@ -64,7 +65,7 @@ public class LayerSurface extends TransparentPanel {
                 add(marker);
             }
 
-//            repaint();
+            repaint();
         });
     }
 

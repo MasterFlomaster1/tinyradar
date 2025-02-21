@@ -1,11 +1,15 @@
 package dev.mf1.tinyradar.gui;
 
 import com.github.weisj.jsvg.SVGDocument;
+import com.github.weisj.jsvg.parser.DefaultParserProvider;
+import com.github.weisj.jsvg.parser.DomProcessor;
 import com.github.weisj.jsvg.parser.LoaderContext;
 import com.github.weisj.jsvg.parser.SVGLoader;
 import dev.mf1.tinyradar.core.al.Aircraft;
+import dev.mf1.tinyradar.gui.svg.CustomColorsProcessor;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,43 +29,62 @@ public final class Markers {
     private final static Map<String, SVGDocument> types = new HashMap<>();
     private static Map<String, SVGDocument> category;
 
+    public static CustomColorsProcessor COLORS_PROCESSOR = new CustomColorsProcessor(List.of("icon"));
+    public static final SVGLoader SVG_LOADER = new SVGLoader();
+    public static LoaderContext LOADER_CONTEXT;
+
     private Markers() {
     }
 
     public static void load() {
 
-        var loader = new SVGLoader();
-        var context = LoaderContext.builder().build();
+        LOADER_CONTEXT = LoaderContext.builder()
+                .parserProvider(new DefaultParserProvider() {
+                    @Override
+                    public DomProcessor createPreProcessor() {
+                        return COLORS_PROCESSOR;
+                    }
+                })
+                .build();
 
-        airliner = loader.load(Resources.getAsStream("/markers/airliner.svg"), null, context);
-        cessna = loader.load(Resources.getAsStream("/markers/cessna.svg"), null, context);
-        heavy2E = loader.load(Resources.getAsStream("/markers/heavy2e.svg"), null, context);
-        SVGDocument md11 = loader.load(Resources.getAsStream("/markers/md11.svg"), null, context);
-        SVGDocument c130 = loader.load(Resources.getAsStream("/markers/c130.svg"), null, context);
-        hiPerf = loader.load(Resources.getAsStream("/markers/hi_perf.svg"), null, context);
-        SVGDocument f18 = loader.load(Resources.getAsStream("/markers/f18.svg"), null, context);
-        SVGDocument e3awacs = loader.load(Resources.getAsStream("/markers/e3awacs.svg"), null, context);
-        SVGDocument heavy4E = loader.load(Resources.getAsStream("/markers/heavy4e.svg"), null, context);
-        jetSwept = loader.load(Resources.getAsStream("/markers/jet_swept.svg"), null, context);
-        SVGDocument twinLarge = loader.load(Resources.getAsStream("/markers/twin_large.svg"), null, context);
-        SVGDocument v22Fast = loader.load(Resources.getAsStream("/markers/v22_fast.svg"), null, context);
-        SVGDocument t38 = loader.load(Resources.getAsStream("/markers/t38.svg"), null, context);
-        uav = loader.load(Resources.getAsStream("/markers/uav.svg"), null, context);
-        SVGDocument typhoon = loader.load(Resources.getAsStream("/markers/typhoon.svg"), null, context);
-        SVGDocument c17 = loader.load(Resources.getAsStream("/markers/c17.svg"), null, context);
-        SVGDocument c5 = loader.load(Resources.getAsStream("/markers/c5.svg"), null, context);
-        SVGDocument a380 = loader.load(Resources.getAsStream("/markers/a380.svg"), null, context);
-        helicopter = loader.load(Resources.getAsStream("/markers/helicopter.svg"), null, context);
-        SVGDocument a10 = loader.load(Resources.getAsStream("/markers/a10.svg"), null, context);
-        SVGDocument apache = loader.load(Resources.getAsStream("/markers/apache.svg"), null, context);
-        SVGDocument blackhawk = loader.load(Resources.getAsStream("/markers/blackhawk.svg"), null, context);
-        SVGDocument b52 = loader.load(Resources.getAsStream("/markers/b52.svg"), null, context);
-        SVGDocument b707 = loader.load(Resources.getAsStream("/markers/b707.svg"), null, context);
-        SVGDocument groundSquare = loader.load(Resources.getAsStream("/markers/ground_square.svg"), null, context);
-        groundTower = loader.load(Resources.getAsStream("/markers/ground_tower.svg"), null, context);
-        SVGDocument puma = loader.load(Resources.getAsStream("/markers/puma.svg"), null, context);
-        SVGDocument f15 = loader.load(Resources.getAsStream("/markers/md_f15.svg"), null, context);
-        SVGDocument b1bLancer = loader.load(Resources.getAsStream("/markers/b1b_lancer.svg"), null, context);
+        var context = LoaderContext.builder()
+                .parserProvider(new DefaultParserProvider() {
+                    @Override
+                    public DomProcessor createPreProcessor() {
+                        return COLORS_PROCESSOR;
+                    }
+                })
+                .build();
+
+        airliner = SVG_LOADER.load(Resources.getAsStream("/markers/airliner.svg"), null, context);
+        cessna = SVG_LOADER.load(Resources.getAsStream("/markers/cessna.svg"), null, context);
+        heavy2E = SVG_LOADER.load(Resources.getAsStream("/markers/heavy2e.svg"), null, context);
+        SVGDocument md11 = SVG_LOADER.load(Resources.getAsStream("/markers/md11.svg"), null, context);
+        SVGDocument c130 = SVG_LOADER.load(Resources.getAsStream("/markers/c130.svg"), null, context);
+        hiPerf = SVG_LOADER.load(Resources.getAsStream("/markers/hi_perf.svg"), null, context);
+        SVGDocument f18 = SVG_LOADER.load(Resources.getAsStream("/markers/f18.svg"), null, context);
+        SVGDocument e3awacs = SVG_LOADER.load(Resources.getAsStream("/markers/e3awacs.svg"), null, context);
+        SVGDocument heavy4E = SVG_LOADER.load(Resources.getAsStream("/markers/heavy4e.svg"), null, context);
+        jetSwept = SVG_LOADER.load(Resources.getAsStream("/markers/jet_swept.svg"), null, context);
+        SVGDocument twinLarge = SVG_LOADER.load(Resources.getAsStream("/markers/twin_large.svg"), null, context);
+        SVGDocument v22Fast = SVG_LOADER.load(Resources.getAsStream("/markers/v22_fast.svg"), null, context);
+        SVGDocument t38 = SVG_LOADER.load(Resources.getAsStream("/markers/t38.svg"), null, context);
+        uav = SVG_LOADER.load(Resources.getAsStream("/markers/uav.svg"), null, context);
+        SVGDocument typhoon = SVG_LOADER.load(Resources.getAsStream("/markers/typhoon.svg"), null, context);
+        SVGDocument c17 = SVG_LOADER.load(Resources.getAsStream("/markers/c17.svg"), null, context);
+        SVGDocument c5 = SVG_LOADER.load(Resources.getAsStream("/markers/c5.svg"), null, context);
+        SVGDocument a380 = SVG_LOADER.load(Resources.getAsStream("/markers/a380.svg"), null, context);
+        helicopter = SVG_LOADER.load(Resources.getAsStream("/markers/helicopter.svg"), null, context);
+        SVGDocument a10 = SVG_LOADER.load(Resources.getAsStream("/markers/a10.svg"), null, context);
+        SVGDocument apache = SVG_LOADER.load(Resources.getAsStream("/markers/apache.svg"), null, context);
+        SVGDocument blackhawk = SVG_LOADER.load(Resources.getAsStream("/markers/blackhawk.svg"), null, context);
+        SVGDocument b52 = SVG_LOADER.load(Resources.getAsStream("/markers/b52.svg"), null, context);
+        SVGDocument b707 = SVG_LOADER.load(Resources.getAsStream("/markers/b707.svg"), null, context);
+        SVGDocument groundSquare = SVG_LOADER.load(Resources.getAsStream("/markers/ground_square.svg"), null, context);
+        groundTower = SVG_LOADER.load(Resources.getAsStream("/markers/ground_tower.svg"), null, context);
+        SVGDocument puma = SVG_LOADER.load(Resources.getAsStream("/markers/puma.svg"), null, context);
+        SVGDocument f15 = SVG_LOADER.load(Resources.getAsStream("/markers/md_f15.svg"), null, context);
+        SVGDocument b1bLancer = SVG_LOADER.load(Resources.getAsStream("/markers/b1b_lancer.svg"), null, context);
 
         category = Map.of(
                 "A1", cessna,
@@ -327,6 +350,41 @@ public final class Markers {
     public static SVGDocument resolve(Aircraft aircraft) {
         return types.getOrDefault(aircraft.getT(),
                 (aircraft.getCategory() != null) ? category.getOrDefault(aircraft.getCategory(), airliner) : airliner);
+    }
+
+    public static SVGDocument get(Aircraft aircraft) {
+
+        if (aircraft.getT() == null)
+            return read(resolvePath("empty"));
+        else
+            return read(resolvePath(aircraft.getT()));
+    }
+
+    private static String resolvePath(String type) {
+        return switch (type) {
+            case "A306", "A330", "A332", "A333", "A338", "A339", "A359", "A35K", "B752", "B753", "B772", "B773", "B77L",
+                 "B77W" -> "/markers/heavy2e.svg";
+            case "DC10", "MD11" -> "/markers/md11.svg";
+            case "A388" -> "/markers/a380.svg";
+            case "B741", "B742", "B743", "B744", "B74D", "B74S", "B74R", "BLCF", "BSCA", "B748" -> "/markers/heavy4e.svg";
+            case "B701", "B703", "K35R", "K35E" -> "/markers/b707.svg";
+            case "FA20", "C680", "C68A", "YK40", "C750", "F2TH", "FA50", "CL30", "CL35", "F900", "CL60", "G200", "G280",
+                 "HA4T", "FA7X", "FA8X", "GLF2", "GLF3", "GLF4", "GA5C", "GL5T", "GLF5", "GA6C", "GLEX", "GL6T", "GLF6",
+                 "GA7C", "GA8C", "GL7T", "E135", "E35L", "E145", "E45X", "CRJ1", "CRJ2", "F28", "CRJ7", "CRJ9", "F70",
+                 "CRJX", "F100", "DC91", "DC92", "DC93", "DC94", "DC95", "MD80", "MD81", "MD82", "MD83", "MD87", "MD88",
+                 "MD90", "B712", "B721", "B722", "T154" -> "/markers/jet_swept.svg";
+            case "A37", "A700", "LEOP", "ME62", "T2", "T37", "A3", "A6", "AT3", "CKUO", "F1", "F111", "F117", "F14",
+                 "F16", "F4", "J8A", "J8B", "JH7", "LTNG", "M346", "METR", "MG19", "MG25", "MG29", "MG31", "MG44",
+                 "MIR4", "MT2", "Q5", "S3", "S37", "SR71", "SU15", "SU24", "SU25", "SU27", "T22M", "T4", "TU22", "VAUT",
+                 "Y130", "YK28" -> "/markers/hi_perf.svg";
+            case "T38" -> "/markers/t38.svg";
+            case "A10" -> "/markers/a10.svg";
+            default -> "/markers/airliner.svg";
+        };
+    }
+
+    private static SVGDocument read(String resource) {
+        return SVG_LOADER.load(Resources.getAsStream(resource), null, LOADER_CONTEXT);
     }
 
 }

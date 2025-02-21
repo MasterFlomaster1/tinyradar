@@ -1,5 +1,6 @@
 package dev.mf1.tinyradar.gui;
 
+import com.github.weisj.jsvg.parser.SVGLoader;
 import com.google.common.eventbus.Subscribe;
 import dev.mf1.tinyradar.core.TinyRadar;
 import dev.mf1.tinyradar.core.WGS84;
@@ -9,9 +10,11 @@ import dev.mf1.tinyradar.core.event.FlightsUpdateEvent;
 import dev.mf1.tinyradar.core.event.LocationChangeEvent;
 import dev.mf1.tinyradar.core.event.ZoomChangeEvent;
 import dev.mf1.tinyradar.gui.map.MapUtils;
+import dev.mf1.tinyradar.gui.svg.SvgRotatablePanel;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.SwingUtilities;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -85,7 +88,7 @@ final class LayerAirborne extends TransparentPanel {
                 var pos = new WGS84(a.getLat().floatValue(), a.getLon().floatValue());
                 var proj = MapUtils.getScreenPosition(pos, TinyRadar.zoom, TinyRadar.pos, w, h);
 
-                var doc = Markers.resolve(a);
+                var doc = Markers.get(a);
                 var x = proj[0] - (int) doc.size().getWidth() / 2;
                 var y = proj[1] - (int) doc.size().getHeight() / 2;
 
@@ -102,6 +105,7 @@ final class LayerAirborne extends TransparentPanel {
 
                 marker.setBounds(x, y, (int) doc.size().getWidth(), (int) doc.size().getHeight());
                 marker.setDegrees(a.getAnyHeading());
+                marker.setColor(a.isOnGround() ? Color.GRAY : Color.WHITE);
                 add(marker);
 
 //                int pX = x + (int) doc.size().getWidth() + 1;

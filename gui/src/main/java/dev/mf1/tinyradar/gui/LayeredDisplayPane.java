@@ -57,7 +57,7 @@ public final class LayeredDisplayPane extends JLayeredPane {
 
     @Override
     protected void paintComponent(Graphics g) {
-//        log.info("repaint");
+        log.info("repaint");
         super.paintComponent(g);
     }
 }

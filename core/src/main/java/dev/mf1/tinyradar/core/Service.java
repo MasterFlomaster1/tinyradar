@@ -27,7 +27,7 @@ public class Service {
                     .peek(i -> i.setFlight(i.getFlight() != null && !i.getFlight().trim().isEmpty() ? i.getFlight().trim() : "NO CALLSIGN"))
                     .filter(i -> !i.getType().equals("tisb_other") && !i.getType().equals("tisb_trackfile") && !i.getType().equals("adsb_icao_nt"))
                     .filter(i -> i.getLat() != null && i.getLon() != null)
-                    .filter(i -> Filter.showAirborneOnly && !i.isOnGround())
+//                    .filter(i -> Filter.showAirborneOnly && !i.isOnGround())
                     .filter(i -> !"TWR".equals(i.getR()))
                     .toList();
 

@@ -1,17 +1,21 @@
-package dev.mf1.tinyradar.gui;
+package dev.mf1.tinyradar.gui.svg;
 
 import com.github.weisj.jsvg.SVGDocument;
+import dev.mf1.tinyradar.gui.Gui;
 import lombok.Setter;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
+import java.util.UUID;
 
 @Setter
 public class SvgRotatablePanel<T> extends SvgPanel<T> {
 
     private double degrees;
+    private String uuid = UUID.randomUUID().toString();
 
     public SvgRotatablePanel(T t, SVGDocument document) {
         super(t, document);
@@ -21,6 +25,15 @@ public class SvgRotatablePanel<T> extends SvgPanel<T> {
         super(t, document);
 
         addMouseListener(listener);
+    }
+
+    @Override
+    public void setColor(Color color) {
+        DynamicAWTSvgPaint paint = colorsProcessor.customColorForId(uuid);
+        if (paint != null) {
+            paint.setColor(color);
+            repaint();
+        }
     }
 
     @Override
